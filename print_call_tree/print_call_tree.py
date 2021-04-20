@@ -18,8 +18,15 @@ while(1):
 	if callers == []:
 		break
 	for i in callers:
+		if i.symbol.type == SymbolType.ImportedFunctionSymbol:
+			token_type = InstructionTextTokenType.ImportToken
+		else:
+			token_type = InstructionTextTokenType.CodeSymbolToken
 		n = FlowGraphNode(graph)
-		n.lines = i.name
+		n.lines = [
+			   DisassemblyTextLine(
+					[InstructionTextToken(token_type, i.name, i.start)],
+					i.start,)]
 		node_dict[i] = n
 		new_find_callers_list = new_find_callers_list + list(set(i.callers))
 	callers =  new_find_callers_list
@@ -34,4 +41,4 @@ for i in node_list:
 	for p in l:
 		node_dict[p].add_outgoing_edge(BranchType.UnconditionalBranch,node_dict[i])
 
-show_graph_report("Custom Graph", graph)
+show_graph_report("CALL Graph", graph)

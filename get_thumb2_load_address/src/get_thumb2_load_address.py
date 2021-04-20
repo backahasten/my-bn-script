@@ -6,6 +6,7 @@ import time
 #a lange range may cause a long time
 guess_base_address_start = 0x20000
 guess_base_address_end = 0x26010
+acc = 4
 guess_file_end = guess_base_address_start + bv.end
 
 def do_find_disass(start_address,end_address):
@@ -33,7 +34,7 @@ def do_find_point(start_adress,end_address):
 
 def do_calc_flag(disass_address_list,point_address_list):
     guess_address_flag = {}
-    for base_addr in range(guess_base_address_start, guess_base_address_end, 4):
+    for base_addr in range(guess_base_address_start, guess_base_address_end, acc):
         flag = 0
         for i in disass_address_list:
             if (i + base_addr) in point_address_list:
